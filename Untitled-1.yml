@@ -1,0 +1,6 @@
+ssh-add -k ./test.pem 
+ssh -A -J ec2-user@ec2-3-252-80-80.eu-west-1.compute.amazonaws.com  ec2-user@ec2-3-249-79-88.eu-west-1.compute.amazonaws.com
+
+
+
+sudo passwd ec2-user

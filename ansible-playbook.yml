@@ -1,0 +1,37 @@
+- hosts: proxy, nodes
+  vars:
+    config_file: "{{ hostvars[inventory_hostname]['config_file'] }}"
+  become: yes
+  tasks:
+    - name: Test Ping
+      action: ping
+    - name: Stop and disable firewalld.
+      service:
+        name: firewalld
+        state: stopped
+        enabled: False
+    - name: Run setenforce
+      shell: |
+        setenforce 0
+    - name: Copy ngnix tar file
+      copy:
+        src: /Users/sezginerdem/Documents/nginx-front-back-vm/nms-dependencies-centos8.tar.gz
+        dest: /root
+    - name: Extract Nginx dependencies
+      unarchive:
+        src: /Users/sezginerdem/Documents/nginx-front-back-vm/nms-dependencies-centos8.tar.gz
+        dest: /root
+        remote_src: yes
+    - name: Install Nginx dependencies
+      yum:
+        name: /root/*.rpm
+        state: present
+    - name: Copy config file to vm1,vm2,vm3,vm4
+      copy:
+        src: "{{ config_file }}"
+        dest: /etc/nginx
+    - name: Restart Nginx service
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes

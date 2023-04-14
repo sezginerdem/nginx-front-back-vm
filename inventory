@@ -1,0 +1,16 @@
+[all:vars]
+ansible_connection = ssh
+ansible_user = ec2-user
+host_key_checking = False
+ansible_password=0000
+
+[proxy]
+ec2-3-252-80-80.eu-west-1.compute.amazonaws.com config_file=/Users/sezginerdem/Documents/nginx-front-back-vm/vm1/nginx.conf
+
+[nodes]
+ec2-3-249-79-88.eu-west-1.compute.amazonaws.com config_file=/Users/sezginerdem/Documents/nginx-front-back-vm/vm2/nginx.conf
+ec2-54-217-160-167.eu-west-1.compute.amazonaws.com config_file=/Users/sezginerdem/Documents/nginx-front-back-vm/vm3/nginx.conf
+ec2-34-245-169-190.eu-west-1.compute.amazonaws.com config_file=/Users/sezginerdem/Documents/nginx-front-back-vm/vm4/nginx.conf
+
+[nodes:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q ec2-user@ec2-3-252-80-80.eu-west-1.compute.amazonaws.com"'
