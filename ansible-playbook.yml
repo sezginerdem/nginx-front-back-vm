@@ -30,6 +30,7 @@
       copy:
         src: "{{ config_file }}"
         dest: /etc/nginx
+        force: yes
     - name: Restart Nginx service
       service:
         name: nginx
